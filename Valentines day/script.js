@@ -30,17 +30,29 @@ noBtn.addEventListener('click', () => {
 });
 
 function confetti() {
-  for (let i = 0; i < 30; i++) {
+  const spawnHearts = () => {
     const heart = document.createElement('div');
     heart.textContent = '💖';
     heart.style.position = 'fixed';
     heart.style.left = Math.random() * 100 + 'vw';
     heart.style.top = '-10px';
+    heart.style.fontSize = (12 + Math.random() * 24) + 'px';
+    heart.style.zIndex = 2;
+    heart.style.pointerEvents = 'none';
     document.body.appendChild(heart);
+
+    const duration = 4000 + Math.random() * 3000; // fall speed
     heart.animate(
-      [{ transform: 'translateY(0)' }, { transform: 'translateY(100vh)' }],
-      { duration: 1200 }
+      [
+        { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+        { transform: `translateY(${window.innerHeight + 20}px) rotate(${Math.random()*360}deg)`, opacity: 0 }
+      ],
+      { duration: duration, easing: 'linear' }
     );
-    setTimeout(() => heart.remove(), 1200);
-  }
+
+    setTimeout(() => heart.remove(), duration);
+  };
+
+  // Spawn a new heart every 100ms forever
+  setInterval(spawnHearts, 100);
 }
